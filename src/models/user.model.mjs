@@ -1,16 +1,16 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
-import { v4 as uuidv4 } from 'uuid';
+
 
 const userSchema = new mongoose.Schema({
-    _id: { type: String, default: uuidv4 },
-    username: { type: String, required: true, unique: true, trim: true },
-    email: { type: String, required: true, unique: true, trim: true },
-    password: { type: String, required: true, minlength: 6 },
-   
-}, {
-    timestamps: true,
-});
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    role: { type: String, enum: ['client', 'owner'], required: true }, // To distinguish between clients and owners
+    phone: { type: String },
+    profilePicture: { type: String }, // URL to the profile picture
+    createdAt: { type: Date, default: Date.now },
+  });
 
 // Hash the password before saving to the database
 userSchema.pre("save", async function (next) {

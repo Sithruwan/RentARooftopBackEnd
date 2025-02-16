@@ -1,7 +1,12 @@
-import { jwt } from "jsonwebtoken";
+import  jwt  from "jsonwebtoken";
 
 const getToken =(payload)=>{
-    const token = jwt.sign(payload,process.env.JWT_SECRET_KEY,{expiresIn:"ll"});
+    const token = jwt.sign(payload,process.env.JWT_SECRET_KEY,{expiresIn:"1d"});
+    return token;
+}
+
+const getRefreshToken=(payload)=>{
+    const token = jwt.sign(payload,process.env.JWT_REFRESH_SECRET,{expiresIn:"7d"});
     return token;
 }
 
@@ -21,5 +26,16 @@ const verifyToken=(token)=>{
     }
    
 }
+const verifyRefreshToken=(token)=>{
+    try {
+        const decoded = jwt.verify(token,process.env.JWT_REFRESH_SECRET);
+        return decoded;
+    } catch (error) {
+        console.log(error);
+        return null;
+        
+    }
+   
+}
 
-export  {getToken,decodeToken,verifyToken}
+export  {getToken,decodeToken,verifyToken,getRefreshToken,verifyRefreshToken};
