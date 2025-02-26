@@ -24,6 +24,7 @@ const loginUser = async (reqbody) => {
     }
     //genarate JWT token
     const payload = {
+        id: user._id,
         username: user.name,
         role: user.role,
         photoUrl:user.profilePicture

@@ -17,10 +17,15 @@ const register = async (req, res) => {
 const login = async (req, res) => {
     try {
         const {token,refreshToken,userData}  = await userService.loginUser(req.body);
-        res.cookie('jwt', refreshToken, {
+        res.cookie('jwtR', refreshToken, {
             httpOnly: true,
             sameSite: 'None', secure: true,
             maxAge: 7*24 * 60 * 60 * 1000 //7day
+        });
+        res.cookie('jwtT', token, {
+            httpOnly: true,
+            sameSite: 'None', secure: true,
+            maxAge: 24 * 60 * 60 * 1000 //7day
         });
         res.status(201).json({
             msg:"User loggedin successfully",
